@@ -1,25 +1,52 @@
 # db.sh
-Key value file parsed in bash.
 
-Using bash, you can easily manage key value pairs inside of a file.
+`db.sh` allows you to easily manage key value pairs inside of a file.
 
-It's this simple:
+## Example
 
+Script file:
 ```bash
-source db.sh
+source ../db.sh
 
-db.connect "my.db"
-db.set key "value"
-let someval=$(db.get key)
+function main ()
+{
+    # Start off with connecting.
+    db.connect "mydb.db"
 
-db.save
+    echo "Database before saving:"
+    db.visualize_db
+    echo
+
+    # Get something
+    local let username=$(db.get username)
+
+    # Set something
+    db.set username "carl"
+
+    # Finally, save it.
+    db.save
+
+    echo "Database after saving:"
+    db.visualize_db
+}
+
+main
+exit 0
 ```
 
-The db files look like this:
-
+DB file:
 ```
-key value
-hi hello
-username jack
-password sup3rs3cur3
+password username
+username joe
+```
+
+Output:
+```
+Database before saving:
+password : username
+username : joe
+
+Database after saving:
+password : username
+username : carl
 ```
