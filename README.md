@@ -14,3 +14,12 @@ let someval=$(db.get key)
 
 db.save
 ```
+
+The db files look like this:
+
+```
+key value
+hi hello
+username jack
+password sup3rs3cur3
+```
