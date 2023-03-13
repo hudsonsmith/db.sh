@@ -12,7 +12,7 @@ function db.connect ()
         exit
     else
         # Create a local path for checking.
-        local let path="$(pwd)/${1}"
+        local path="$(pwd)/${1}"
 
         # If the path exists, set the current db to be that.
         if [[ -f "${path}" ]]; then
@@ -28,8 +28,8 @@ function db.connect ()
 
 function db.parse_db ()
 {
-    local let current_type=0
-    local let current_key_buffer=""
+    local current_type=0
+    local current_key_buffer=""
 
     for type in `cat ${CURRENT_DB}`; do
         if [[ $current_type == 0 ]]; then
@@ -46,9 +46,9 @@ function db.parse_db ()
 function db.visualize_db ()
 {
     for key in "${!DB_DATA[@]}"; do
-        local let val=${DB_DATA[$key]}
+        local val=${DB_DATA[$key]}
 
-        echo -e "\e[31m$key : $val"
+        echo -e "\e[31m$key : $val\e[31;0m"
     done
 }
 
@@ -70,8 +70,19 @@ function db.save ()
     echo "" > "${CURRENT_DB}"
 
     for key in "${!DB_DATA[@]}"; do
-        let local val=${DB_DATA[$key]}
+        local val=${DB_DATA[$key]}
 
         echo "${key} ${val}" >> "${CURRENT_DB}"
     done
+}
+
+
+function db.get ()
+{
+    if [[ -z "${1}" ]]; then
+        echo "db.get, no key provided."
+        exit
+    fi
+
+    echo "${DB_DATA[$1]}"
 }
